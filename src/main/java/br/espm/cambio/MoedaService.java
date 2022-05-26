@@ -1,5 +1,6 @@
 package br.espm.cambio;
 
+
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -7,6 +8,8 @@ import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 /* 
  * Esse e o microservico de moeda
@@ -31,9 +34,22 @@ public class MoedaService {
         vo.setId(UUID.randomUUID());
         return moedaRepository.save(new MoedaModel(vo)).to();
     }
-    
+
     public Moeda findBySimbolo(String simbolo) {
-        return moedaRepository.findBySimbolo(simbolo).map(MoedaModel :: to).orElse(null);
+        return moedaRepository.findBySimbolo(simbolo)
+                    .map(MoedaModel::to)
+                    .orElse(null);
     }
 
+
+    public Moeda findBy(UUID id) {
+        return moedaRepository.findById(id.toString())
+                    .map(MoedaModel::to)
+                    .orElse(null);
+    }
+
+    public void deleteById(){
+        
+    }
+    
 }

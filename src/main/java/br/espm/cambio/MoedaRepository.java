@@ -14,8 +14,10 @@ public interface MoedaRepository extends CrudRepository<MoedaModel, String> {
     @Override
     Optional<MoedaModel> findById(String id);
 
-    //JQL
+    @Override
+    void deleteById(String id);
 
+    //JQL
     @Query("SELECT m from MoedaModel m WHERE UPPER(m.txSimbolo) = UPPER(:simbolo)")
     Optional<MoedaModel> findBySimbolo(@Param("simbolo") String simbolo);
 
