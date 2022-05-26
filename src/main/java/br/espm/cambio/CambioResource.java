@@ -47,13 +47,10 @@ public class CambioResource {
         moedaService.create(moeda);
     }
     
-    @DeleteMapping(path ={"/{id}"})
-    public ResponseEntity <?> delete(@PathVariable long id) {
-    return moedaService.deleteById(id)
-                .map(record -> {
-                repository.deleteById(id);
-                return ResponseEntity.ok().build();
-           }).orElse(ResponseEntity.notFound().build());
-}
+    @DeleteMapping("/moeda/{id:[a-f0-9]{8}(?:-[a-f0-9]{4}){4}[a-f0-9]{8}}")
+    public void delete(@PathVariable String id) {
+        moedaService.delete(id);
+    }
+
 
 }

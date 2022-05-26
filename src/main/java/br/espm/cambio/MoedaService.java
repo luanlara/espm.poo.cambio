@@ -48,8 +48,8 @@ public class MoedaService {
                     .orElse(null);
     }
 
-    public void deleteById(){
-        
+    public void delete(String id){
+        moedaRepository.deleteById(id);
     }
     
 }
