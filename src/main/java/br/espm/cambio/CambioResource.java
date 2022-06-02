@@ -1,5 +1,8 @@
 package br.espm.cambio;
 
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.UUID;
 
@@ -52,5 +55,37 @@ public class CambioResource {
         moedaService.delete(id);
     }
 
+    @Autowired
+    private CotacaoService cotacaoService;
+
+    @GetMapping("/cotacao")
+    public List<Cotacao> ListCotacao(){
+        return cotacaoService.listaAll();
+    }
+
+    @GetMapping("/cotacao/{simbolo:[A-Z]{3,}}")
+    public List<Cotacao> findCotacaoBySimbolo(@PathVariable String simbolo) {
+        List<Cotacao> cs = cotacaoService.findBySimbolo(simbolo);
+        cs.forEach(c -> c.setId(null));
+        return cs;
+    }
+
+    @PostMapping("/cotacao/{simbolo}/{ano}/{mes}/{dia}")
+    public void save(@PathVariable String simbolo, @PathVariable String ano, @PathVariable String mes, @PathVariable String dia, @RequestBody Cotacao cotacao){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String data = ano + "-" + mes + "-" + dia;
+       
+        Date dt;
+        try {
+            Moeda moeda = moedaService.findBySimbolo(simbolo);
+            dt = (Date) formatter.parse(data);
+            UUID idMoeda = moeda.getId();
+            cotacao.setData(dt);
+            cotacao.setIdMoeda(idMoeda);
+            cotacaoService.createCotacao(cotacao);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
