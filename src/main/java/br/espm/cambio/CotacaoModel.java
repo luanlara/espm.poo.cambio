@@ -1,14 +1,11 @@
 package br.espm.cambio;
 
-import java.sql.Date;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "cotacao")
@@ -22,8 +19,7 @@ public class CotacaoModel{
     private String idMoeda;
 
     @Column(name = "dt_data")
-    @Temporal(TemporalType.DATE)
-    private Date dtData;
+    private String dtData;
 
     @Column(name = "vr_valor")
     private double vrValor;
